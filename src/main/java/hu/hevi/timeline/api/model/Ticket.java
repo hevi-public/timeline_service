@@ -16,10 +16,10 @@ public class Ticket {
     @Indexed(unique = true)
     private String ticketNumber;
     private String description;
-
+    private String title;
     private Type type;
     private Priority priority;
-    private TshirtSize tshirtSize;
+    private Size size;
     private String status;
     private String assignee;
     private String reporter;

@@ -1,6 +1,6 @@
 package hu.hevi.timeline.api.model;
 
-public enum TshirtSize {
+public enum Size {
 
     S, M, L, XL
 }
