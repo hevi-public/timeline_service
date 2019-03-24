@@ -28,5 +28,5 @@ public class Ticket {
 
     private String start;
     private String end;
-
+    private String updatedAt;
 }
