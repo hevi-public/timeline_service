@@ -1,5 +1,6 @@
 package hu.hevi.timeline.api.controller;
 
+import hu.hevi.timeline.api.controller.response.TicketResponse;
 import hu.hevi.timeline.api.model.Ticket;
 import hu.hevi.timeline.api.repository.TicketRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -11,8 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
 @Slf4j
 public class TicketController {
@@ -21,9 +20,14 @@ public class TicketController {
     private TicketRepository ticketRepository;
 
     @GetMapping(value = "/ticket", produces = "application/json")
-    public ResponseEntity<List<Ticket>> getTickets() {
+    public ResponseEntity<TicketResponse> getTickets() {
         log.info("getTickets()");
-        return new ResponseEntity<>(ticketRepository.findAll(), HttpStatus.OK);
+
+        TicketResponse ticketResponse = TicketResponse.builder()
+                .tickets(ticketRepository.findAll())
+                .build();
+
+        return new ResponseEntity<>(ticketResponse, HttpStatus.OK);
     }
 
     @PostMapping(value = "/ticket", produces = "application/json")
