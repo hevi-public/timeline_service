@@ -1,5 +1,6 @@
 package hu.hevi.timeline.api.model;
 
+import hu.hevi.timeline.api.domain.update.Update;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -24,7 +25,9 @@ public class Ticket {
     private String assignee;
     private String reporter;
     private List<Comment> comments;
+    private List<Todo> todos;
     private List<Attachment> attachments;
+    private List<Update> updates;
 
     private String start;
     private String end;

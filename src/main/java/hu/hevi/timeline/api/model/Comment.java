@@ -1,8 +1,17 @@
 package hu.hevi.timeline.api.model;
 
-import org.springframework.data.mongodb.core.mapping.Document;
+import lombok.Data;
 
-@Document(collection = "comment")
+import java.util.ArrayList;
+import java.util.List;
+
+@Data
 public class Comment {
 
+    private String commentId;
+    private String author;
+    private String content;
+    private String createdAt;
+    private String parentId;
+    private List<Comment> children = new ArrayList<>();
 }

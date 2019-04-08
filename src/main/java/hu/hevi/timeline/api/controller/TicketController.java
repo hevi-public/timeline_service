@@ -2,8 +2,10 @@ package hu.hevi.timeline.api.controller;
 
 import hu.hevi.timeline.api.controller.response.Overview;
 import hu.hevi.timeline.api.controller.response.TicketResponse;
+import hu.hevi.timeline.api.domain.update.Update;
 import hu.hevi.timeline.api.model.Ticket;
 import hu.hevi.timeline.api.repository.TicketRepository;
+import hu.hevi.timeline.api.repository.UpdateRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @Slf4j
@@ -22,6 +25,8 @@ public class TicketController {
 
     @Autowired
     private TicketRepository ticketRepository;
+    @Autowired
+    private UpdateRepository updateRepository;
 
     @GetMapping(value = "/ticket", produces = "application/json")
     public ResponseEntity<TicketResponse> getTickets() {
@@ -32,9 +37,15 @@ public class TicketController {
                 .recentComments(new ArrayList<>())
                 .build();
 
+        List<Update> updates = updateRepository.findAll();
+
+        List<Ticket> tickets = ticketRepository.findAll();
+        tickets.forEach(ticket -> ticket.setUpdates(updates));
+
         TicketResponse ticketResponse = TicketResponse.builder()
-                .tickets(ticketRepository.findAll())
+                .tickets(tickets)
                 .overview(overview)
+                .recentUpdates(updates)
                 .build();
 
         return new ResponseEntity<>(ticketResponse, HttpStatus.OK);
